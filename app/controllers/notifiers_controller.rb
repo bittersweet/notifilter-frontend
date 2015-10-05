@@ -1,4 +1,6 @@
 class NotifiersController < ApplicationController
+  before_filter :set_event_data, only: [:new, :create]
+
   def index
     @notifiers = Notifier.all
   end
@@ -21,7 +23,16 @@ class NotifiersController < ApplicationController
     end
   end
 
+  # shell out to golang that compiles from stdin (template, data)
+  def preview
+  end
+
   private
+
+  def set_event_data
+    @event_names = EventData.event_names
+    @event_keys = EventData.all_keys
+  end
 
   def notifier_params
     params.require(:notifier).
