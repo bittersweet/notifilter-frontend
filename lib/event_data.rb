@@ -5,9 +5,9 @@ class EventData
     body = {
       size: 0,
       aggs: {
-        keys: {
+        names: {
           terms: {
-            field: "key",
+            field: "name",
             size: 0,
             order: {
               "_term" => "asc"
@@ -17,7 +17,7 @@ class EventData
       }
     }
     result = $ES.search(index: 'notifilter', body: body)
-    result["aggregations"]["keys"]["buckets"].map{ |bucket| bucket["key"] }
+    result["aggregations"]["names"]["buckets"].map{ |bucket| bucket["key"] }
   end
 
   # Return all known event names
@@ -26,5 +26,17 @@ class EventData
   def self.all_keys
     mapping = $ES.indices.get_mapping(index: 'notifilter')
     mapping['notifilter']['mappings']['event']['properties']['data']['properties'].keys
+  end
+
+  # Return latest 10 events
+  def self.latest_events
+    body = {
+      size: 10,
+      sort: [
+        received_at: { order: "desc" }
+      ]
+    }
+    result = $ES.search(index: 'notifilter', body: body)
+    result["hits"]["hits"].map{ |event| event["_source"] }
   end
 end
