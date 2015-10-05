@@ -1,0 +1,14 @@
+Notifiers: <%= @notifiers.count %>
+<br>
+<table>
+  <thead>
+    <th>ID</th>
+    <th>Notification Type</th>
+    <th>Event Name</th>
+  </thead>
+  <tbody>
+    <% render @notifiers %>
+  </tbody>
+</table>
+
+<%= link_to "New notification", new_notifier_path %>
