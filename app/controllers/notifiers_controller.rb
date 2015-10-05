@@ -15,7 +15,7 @@ class NotifiersController < ApplicationController
     @notifier = Notifier.new(notifier_params)
 
     if @notifier.save
-      redirect_to :index, notice: "Notifier saved succesfully"
+      redirect_to notifiers_path, notice: "Notifier saved succesfully"
     else
       render :new
     end

@@ -1,1 +1,37 @@
-new
+<%= form_for(@notifier) do |form| %>
+  <% if @notifier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@notifier.errors.count, "error") %> prohibited this notifier from being saved:</h2>
+      <ul>
+        <% @notifier.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :notification_type %>
+    <% options = options_for_select([["Slack", "slack"], ["Email", "email"]]) %>
+    <%= form.select :notification_type, options %>
+  </div>
+
+  <div>
+    <%= form.label :event_name %>
+    <%= form.text_field :event_name %>
+  </div>
+
+  <div>
+    <%= form.label :template %>
+    <%= form.text_area :template, rows: 5 %>
+  </div>
+
+  <div>
+    <%= form.label :rules %>
+    <%= form.text_area :rules, rows: 5 %>
+  </div>
+
+  <div>
+    <button type="submit" name="action">Submit</button>
+  </div>
+<% end %>
