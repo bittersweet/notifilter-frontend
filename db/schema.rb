@@ -17,10 +17,11 @@ ActiveRecord::Schema.define(version: 0) do
   enable_extension "plpgsql"
 
   create_table "notifiers", force: :cascade do |t|
-    t.string "notification_type", limit: 20
-    t.string "event_name",             limit: 256
+    t.string "event_name",        limit: 256
     t.text   "template"
     t.json   "rules"
+    t.string "notification_type", limit: 20
+    t.string "target",            limit: 256
   end
 
 end

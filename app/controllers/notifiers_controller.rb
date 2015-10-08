@@ -37,10 +37,11 @@ class NotifiersController < ApplicationController
   def notifier_params
     params.require(:notifier).
       permit(
-        :notification_type,
         :event_name,
         :template,
-        :rules
+        :rules,
+        :notification_type,
+        :target,
       )
   end
 end
