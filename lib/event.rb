@@ -24,7 +24,7 @@ class Event
   end
 
   def received_at
-    Date.parse(@source["received_at"])
+    DateTime.parse(@source["received_at"])
   end
 
   def data
