@@ -37,6 +37,11 @@ class EventData
       ]
     }
     result = $ES.search(index: 'notifilter', body: body)
-    result["hits"]["hits"].map{ |event| event["_source"] }
+    result["hits"]["hits"].map{ |event| Event.new(event) }
+  end
+
+  # Return specific event
+  def self.event(id)
+    result = $ES.search(index: 'notifilter', body: body)
   end
 end

@@ -1,4 +1,5 @@
 <tr>
-  <td><%= Date.parse(event["received_at"]) %></td>
-  <td><%= event["name"] %></td>
+  <td><%= link_to event.id, event_path(event.id) %></td>
+  <td><%= event.received_at %></td>
+  <td><%= event.name %></td>
 </tr>
