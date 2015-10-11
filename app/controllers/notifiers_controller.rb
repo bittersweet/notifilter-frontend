@@ -1,5 +1,5 @@
 class NotifiersController < ApplicationController
-  before_filter :set_event_data, only: [:new, :create]
+  before_filter :set_event_data, only: [:new, :create, :edit, :update]
 
   def index
     @notifiers = Notifier.all
@@ -11,7 +11,6 @@ class NotifiersController < ApplicationController
 
   def new
     @notifier = Notifier.new
-    @applications = EventData.applications
   end
 
   def create
@@ -24,6 +23,26 @@ class NotifiersController < ApplicationController
     end
   end
 
+  def edit
+    @notifier = Notifier.find(params[:id])
+    @applications = EventData.applications
+  end
+
+  def update
+    @notifier = Notifier.find(params[:id])
+    if @notifier.update_attributes(notifier_params)
+      redirect_to notifiers_path, notice: "Notifier updated succesfully"
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @notifier = Notifier.find(params[:id])
+    @notifier.destroy
+    redirect_to notifiers_path, notice: "Notifier deleted succesfully"
+  end
+
   # shell out to golang that compiles from stdin (template, data)
   def preview
   end
@@ -33,6 +52,7 @@ class NotifiersController < ApplicationController
   def set_event_data
     @event_names = EventData.event_names
     @event_keys = EventData.all_keys
+    @applications = EventData.applications
   end
 
   def notifier_params

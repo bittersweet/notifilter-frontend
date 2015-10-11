@@ -21,6 +21,8 @@ class EventData
 
   # Query ES for all known event names
   # This does an aggregation with size 0 to make sure we get every result.
+  # TODO: Consider making nested aggregations for application name as well so
+  # we have a tree of applications + known event names
   def self.event_names
     body = {
       size: 0,
