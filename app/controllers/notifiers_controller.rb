@@ -11,6 +11,7 @@ class NotifiersController < ApplicationController
 
   def new
     @notifier = Notifier.new
+    @applications = EventData.applications
   end
 
   def create
@@ -37,11 +38,12 @@ class NotifiersController < ApplicationController
   def notifier_params
     params.require(:notifier).
       permit(
+        :application,
         :event_name,
-        :template,
-        :rules,
         :notification_type,
         :target,
+        :template,
+        :rules,
       )
   end
 end

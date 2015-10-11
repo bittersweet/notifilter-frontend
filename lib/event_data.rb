@@ -1,4 +1,24 @@
 class EventData
+  # Query ES for all known applications
+  def self.applications
+    body = {
+      size: 0,
+      aggs: {
+        applications: {
+          terms: {
+            field: "application",
+            size: 0,
+            order: {
+              "_term" => "asc"
+            }
+          }
+        }
+      }
+    }
+    result = $ES.search(index: 'notifilter', body: body)
+    result["aggregations"]["applications"]["buckets"].map{ |bucket| bucket["key"] }
+  end
+
   # Query ES for all known event names
   # This does an aggregation with size 0 to make sure we get every result.
   def self.event_names

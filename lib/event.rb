@@ -11,6 +11,10 @@ class Event
     new(doc)
   end
 
+  def application
+    @source["application"]
+  end
+
   def event_name
     @source["name"]
   end
