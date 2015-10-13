@@ -10,3 +10,10 @@ development:
 test:
   <<: *default
   database: notifilter_test
+
+production:
+  <<: *default
+  username: <%= ENV['NOTIFILTER_DBHOST'] %>
+  host: <%= ENV['NOTIFILTER_DBNAME'] %>
+  password: <%= ENV['NOTIFILTER_DBPASSWORD'] %>
+  reconnect: true

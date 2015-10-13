@@ -1,15 +1,14 @@
 require 'patron'
 require 'elasticsearch'
 
-es_host = "127.0.0.1"
+es_host = ENV['NOTIFILTER_ESHOST'] || "127.0.0.1"
+es_port = ENV['NOTIFILTER_ESPORT'] || "9200"
 
-if ENV['WERCKER']
-  es_host = ENV['ELASTICSEARCH_PORT_9200_TCP_ADDR']
-end
+host_port = "#{es_host}:#{es_port}"
 
-if Rails.env.test?
-  log = false
-else
+if Rails.env.development?
   log = true
+else
+  log = false
 end
-$ES = Elasticsearch::Client.new(host: "#{es_host}:9200", log: log)
+$ES = Elasticsearch::Client.new(host: host_port, log: log)
