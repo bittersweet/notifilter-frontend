@@ -64,6 +64,41 @@ class EventData
 
   # Return specific event
   def self.event(id)
+    $ES.search(index: 'notifilter', body: body)
+  end
+
+  # Return count of events per hour
+  #
+  # ES only returns values between the first bucket that matches documents and
+  # the last one. Because of `min_doc_count` it will show 0 for days that have
+  # no data, but only if that date falls in between a bucket that has data.
+  #
+  # https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html#_scripts
+  #
+  # Possible solution: generate date ranges in ruby as well and merge that with
+  # data received from ES.
+  def self.event_counts_per_hour
+    body = {
+      size: 0,
+      query: {
+        range: {
+          received_at: {
+            gte: "now-7d"
+          }
+        }
+      },
+      aggs: {
+        event_counts_per_hour: {
+          date_histogram: {
+            field: "received_at",
+            interval: "hour",
+            format: "yyyy-MM-dd HH:mm:ss",
+            min_doc_count: 0 # fill in the blanks
+          }
+        }
+      }
+    }
     result = $ES.search(index: 'notifilter', body: body)
+    result["aggregations"]["event_counts_per_hour"]["buckets"]
   end
 end

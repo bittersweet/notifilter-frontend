@@ -1,0 +1,15 @@
+<h1>Events received per hour</h1>
+<table>
+  <thead>
+    <th>Hour</th>
+    <th>Count</th>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= event["key_as_string"] %></td>
+        <td><%= event["doc_count"] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
