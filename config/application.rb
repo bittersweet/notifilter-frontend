@@ -33,5 +33,8 @@ module NotifilterFrontend
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Disable changing [] to nil so we can save empty rules
+    config.action_dispatch.perform_deep_munge = false
   end
 end

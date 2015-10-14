@@ -1,49 +1,22 @@
-<%= form_for(@notifier) do |form| %>
-  <% if @notifier.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@notifier.errors.count, "error") %> prohibited this notifier from being saved:</h2>
-      <ul>
-        <% @notifier.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<script>
+  window.options = {
+    applications: ['test_app', 'production'],
+    eventNames: ['signup', 'comment'],
+    keys: <%= @event_keys.to_json.html_safe %>,
+  };
 
-  <div>
-    <%= form.label :application %>
-    <% options = options_for_select(@applications) %>
-    <%= form.select :application, options %>
-  </div>
+  window.notifier = {
+    id: <%= @notifier.id %>,
+    application: '<%= @notifier.application %>',
+    eventName: '<%= @notifier.event_name %>',
+    target: '<%= @notifier.target %>',
+    template: <%= @notifier.template.to_json.html_safe %>,
+    rules: <%= @notifier.rules.to_json.html_safe %>,
+  };
+</script>
 
-  <div>
-    <%= form.label :event_name %>
-    <%= form.select :event_name, @event_names %>
-  </div>
-
-  <div>
-    <%= form.label :notification_type %>
-    <% options = options_for_select([["Slack", "slack"], ["Email", "email"]]) %>
-    <%= form.select :notification_type, options %>
-  </div>
-
-  <div>
-    <%= form.label :target %>
-    <%= form.text_area :target %>
-  </div>
-
-  <div>
-    <%= form.label :template %>
-    <%= form.text_area :template, rows: 5 %>
-  </div>
-
-  <div>
-    <%= form.label :rules %>
-    <%= form.text_area :rules, rows: 5 %>
-  </div>
-
-  <div>
-    <button type="submit" name="action">Submit</button>
-  </div>
-<% end %>
+<div id="rules">
+  <div id="content"></div>
+</div>
+<%= javascript_include_tag 'rules' %>
 

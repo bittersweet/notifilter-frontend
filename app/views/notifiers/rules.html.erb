@@ -1,0 +1,17 @@
+<%= form_for(@notifier) do |form| %>
+  <% if false %>
+    <div>
+      <%= form.label :rules %>
+      <%= form.text_area :rules, rows: 5, value: @notifier.rules.to_json %>
+    </div>
+  <% end %>
+
+  <div id="rules">
+    <div id="content"></div>
+  </div>
+  <%= javascript_include_tag 'rules' %>
+
+  <div class="submit">
+    <button type="submit" name="action">Submit</button>
+  </div>
+<% end %>

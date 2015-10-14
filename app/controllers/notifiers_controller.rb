@@ -1,6 +1,8 @@
 class NotifiersController < ApplicationController
   before_filter :set_event_data, only: [:new, :create, :edit, :update]
 
+  skip_before_action :verify_authenticity_token, only: [:update]
+
   def index
     @notifiers = Notifier.all
   end
@@ -29,11 +31,18 @@ class NotifiersController < ApplicationController
   end
 
   def update
+    headers['Access-Control-Allow-Origin'] = "*"
+    headers['Access-Control-Allow-Headers'] = "content-type"
+    headers['Access-Control-Request-Method'] = %w{GET POST OPTIONS}.join(",")
+
     @notifier = Notifier.find(params[:id])
-    if @notifier.update_attributes(notifier_params)
-      redirect_to notifiers_path, notice: "Notifier updated succesfully"
-    else
-      render :edit
+    @notifier.update_attributes!(notifier_params)
+
+    respond_to do |format|
+      format.json { render json: { status: 'ok' } }
+      format.html do
+        redirect_to notifiers_path, notice: "Notifier updated succesfully"
+      end
     end
   end
 
@@ -45,6 +54,10 @@ class NotifiersController < ApplicationController
 
   # shell out to golang that compiles from stdin (template, data)
   def preview
+  end
+
+  def rules
+    @notifier = Notifier.new
   end
 
   private
@@ -63,7 +76,7 @@ class NotifiersController < ApplicationController
         :notification_type,
         :target,
         :template,
-        :rules,
+        rules: [:key, :type, :setting, :value]
       )
   end
 end
