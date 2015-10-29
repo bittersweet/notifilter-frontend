@@ -1,7 +1,7 @@
 <script>
   window.options = {
-    applications: ['test_app', 'production'],
-    eventNames: ['signup', 'comment'],
+    applications: <%= @applications.to_json.html_safe %>,
+    eventNames: <%= @event_names.to_json.html_safe %>,
     keys: <%= @event_keys.to_json.html_safe %>,
   };
 
