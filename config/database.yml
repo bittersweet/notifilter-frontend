@@ -13,7 +13,8 @@ test:
 
 production:
   <<: *default
-  username: <%= ENV['NOTIFILTER_DBHOST'] %>
-  host: <%= ENV['NOTIFILTER_DBNAME'] %>
+  host: <%= ENV['NOTIFILTER_DBHOST'] %>
+  username: <%= ENV['NOTIFILTER_DBUSER'] %>
   password: <%= ENV['NOTIFILTER_DBPASSWORD'] %>
+  database: notifilter_production
   reconnect: true
