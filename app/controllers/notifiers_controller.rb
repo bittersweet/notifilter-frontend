@@ -1,7 +1,7 @@
 class NotifiersController < ApplicationController
   before_filter :set_event_data, only: [:new, :create, :edit, :update]
 
-  skip_before_action :verify_authenticity_token, only: [:update]
+  skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   def index
     @notifiers = Notifier.all
@@ -17,11 +17,12 @@ class NotifiersController < ApplicationController
 
   def create
     @notifier = Notifier.new(notifier_params)
+    @notifier.notification_type = "slack"
 
     if @notifier.save
-      redirect_to notifiers_path, notice: "Notifier saved succesfully"
+      head 201
     else
-      render :new
+      head 400
     end
   end
 
@@ -36,6 +37,7 @@ class NotifiersController < ApplicationController
     headers['Access-Control-Request-Method'] = %w{GET POST OPTIONS}.join(",")
 
     @notifier = Notifier.find(params[:id])
+    @notifier.notification_type = "slack"
     @notifier.update_attributes!(notifier_params)
 
     respond_to do |format|

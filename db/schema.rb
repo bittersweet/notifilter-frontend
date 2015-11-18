@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "application",       limit: 256
     t.string "event_name",        limit: 256
     t.text   "template"
-    t.json   "rules"
+    t.json   "rules",                         default: []
     t.string "notification_type", limit: 20
     t.string "target",            limit: 256
   end

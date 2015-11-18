@@ -5,14 +5,7 @@
     keys: <%= @event_keys.to_json.html_safe %>,
   };
 
-  window.notifier = {
-    id: <%= @notifier.id %>,
-    application: '<%= @notifier.application %>',
-    eventName: '<%= @notifier.event_name %>',
-    target: '<%= @notifier.target %>',
-    template: <%= @notifier.template.to_json.html_safe %>,
-    rules: <%= @notifier.rules.to_json.html_safe %>,
-  };
+  window.notifier = <%= @notifier.to_json.html_safe %>;
 </script>
 
 <div id="rules">
