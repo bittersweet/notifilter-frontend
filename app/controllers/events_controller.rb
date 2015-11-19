@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   def index
-    @events = EventData.latest_events
+    @page = params[:page].to_i
+    @events = Events.new(@page).latest_events
   end
 
   def show

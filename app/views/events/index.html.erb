@@ -10,3 +10,8 @@
     <%= render partial: 'events/event', collection: @events %>
   </tbody>
 </table>
+
+<% if @page > 0 %>
+  <%= link_to "previous page", events_path(page: @page - 1) %>
+<% end %>
+<%= link_to "next page", events_path(page: @page + 1) %>

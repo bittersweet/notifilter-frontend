@@ -50,18 +50,6 @@ class EventData
     mapping['notifilter']['mappings']['event']['properties']['data']['properties'].keys
   end
 
-  # Return latest 10 events
-  def self.latest_events
-    body = {
-      size: 10,
-      sort: [
-        received_at: { order: "desc" }
-      ]
-    }
-    result = $ES.search(index: 'notifilter', body: body)
-    result["hits"]["hits"].map{ |event| Event.new(event) }
-  end
-
   # Return specific event
   def self.event(id)
     $ES.search(index: 'notifilter', body: body)
